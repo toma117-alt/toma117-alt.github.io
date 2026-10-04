@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tomalika Mazumdar</title>
+  <meta name="description" content="Tomalika Mazumdar — Electrical & Electronic Engineering graduate (BUET). Renewable energy, power-system optimization, microgrids and embedded systems." />
+  <meta property="og:title" content="Tomalika Mazumdar — Portfolio" />
+  <meta property="og:description" content="EEE graduate from BUET working on renewable energy, power-system optimization and embedded systems." />
+  <meta property="og:image" content="assets/toma.jpg" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070b14'/%3E%3Cpath d='M36 6 16 36h14l-4 22 22-32H34z' fill='%232dd4bf'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script>
+    // Apply saved theme before paint to avoid a flash.
+    try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+  </script>
+</head>
+<body>
+  <!-- Scroll-driven 3D flythrough background -->
+  <canvas id="bg3d" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- Loader -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-bolt">
+      <svg viewBox="0 0 64 64"><path d="M36 6 16 36h14l-4 22 22-32H34z"/></svg>
+    </div>
+    <div class="loader-text">Energizing<span>…</span></div>
+  </div>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <a href="#home" class="brand" aria-label="Home">
+      <span class="brand-mark">TM</span>
+      <span class="brand-name">Tomalika<span class="dim">.eee</span></span>
+    </a>
+    <div class="top-actions">
+      <a class="btn-ghost hide-sm" href="assets/Tomalika_Mazumdar_CV.pdf" download>
+        <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg> CV
+      </a>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark / light mode">
+        <span class="tt-track"><span class="tt-thumb">
+          <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"/></svg>
+          <svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+        </span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Circuit progress rail (graphical navigation) -->
+  <nav class="rail" aria-label="Section progress">
+    <div class="rail-wire"><div class="rail-current"></div></div>
+    <a href="#home" data-label="Home"></a>
+    <a href="#about" data-label="About"></a>
+    <a href="#skills" data-label="Skills"></a>
+    <a href="#journey" data-label="Journey"></a>
+    <a href="#research" data-label="Thesis"></a>
+    <a href="#projects" data-label="Projects"></a>
+    <a href="#contact" data-label="Contact"></a>
+  </nav>
+
+  <!-- Floating dock (graphical navigation) -->
+  <nav class="dock" aria-label="Main">
+    <a href="#home" data-label="Home"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></a>
+    <a href="#about" data-label="About"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a>
+    <a href="#skills" data-label="Skills"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg></a>
+    <a href="#journey" data-label="Journey"><svg viewBox="0 0 24 24"><path d="M4 20c4 0 4-8 8-8s4-8 8-8"/><circle cx="4" cy="20" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="20" cy="4" r="1.8"/></svg></a>
+    <a href="#research" data-label="Thesis"><svg viewBox="0 0 24 24"><path d="M3 9 12 4l9 5-9 5z"/><path d="M7 11.5V16c0 1.5 2.5 3 5 3s5-1.5 5-3v-4.5M21 9v6"/></svg></a>
+    <a href="#projects" data-label="Projects"><svg viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M12 22V12M3 7l9 5 9-5"/></svg></a>
+    <a href="#contact" data-label="Contact"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+  </nav>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section id="home" class="hero">
+      <div class="hero-text reveal">
+        <p class="eyebrow"><span class="pulse-dot"></span> EEE Graduate · BUET</p>
+        <h1 class="hero-title">
+          <span class="line">Tomalika</span>
+          <span class="line grad">Mazumdar</span>
+        </h1>
+        <p class="hero-role">I engineer <span id="typer" class="typer"></span><span class="caret">|</span></p>
+        <p class="hero-lead">Electrical &amp; Electronic Engineering graduate from Bangladesh University of Engineering and Technology, building at the intersection of renewable energy, power-system optimization and embedded systems.</p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn-primary">Explore projects
+            <svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+          <a href="#research" class="btn-ghost">Read the thesis</a>
+        </div>
+        <ul class="hero-stats">
+          <li><b data-count="11">0</b><span>Projects</span></li>
+          <li><b data-count="3.40" data-dec="2">0</b><span>CGPA (BUET)</span></li>
+          <li><b data-count="5.00" data-dec="2">0</b><span>GPA in HSC &amp; SSC</span></li>
+        </ul>
+      </div>
+
+      <!-- Photo with orbiting navigation planets -->
+      <div class="hero-visual reveal">
+        <div class="orbit-stage" id="orbitStage">
+          <div class="photo-card tilt" data-tilt-max="14">
+            <div class="photo-glow"></div>
+            <img src="assets/toma.jpg" alt="Portrait of Tomalika Mazumdar" width="900" height="954" />
+            <div class="photo-shine"></div>
+            <div class="photo-badge"><span class="pulse-dot"></span> Open to research &amp; engineering roles</div>
+          </div>
+          <div class="orbit-ring r1"></div>
+          <div class="orbit-ring r2"></div>
+          <div class="orbit-nav" id="orbitNav" aria-label="Orbit navigation">
+            <a href="#about" class="planet" style="--i:0">About</a>
+            <a href="#skills" class="planet" style="--i:1">Skills</a>
+            <a href="#journey" class="planet" style="--i:2">Journey</a>
+            <a href="#research" class="planet" style="--i:3">Thesis</a>
+            <a href="#projects" class="planet" style="--i:4">Projects</a>
+            <a href="#contact" class="planet" style="--i:5">Contact</a>
+          </div>
+        </div>
+      </div>
+      <a href="#about" class="scroll-hint" aria-label="Scroll down"><span></span></a>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section id="about" class="section">
+      <div class="section-head reveal">
+        <span class="kicker">01 / About</span>
+        <h2>Powering ideas, <span class="grad">one watt at a time</span></h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text glass reveal">
+          <p>I'm an <strong>Electrical and Electronic Engineering</strong> graduate from <strong>BUET</strong> with a strong foundation in renewable energy systems, power-system analysis, optimization, embedded systems and electrical engineering.</p>
+          <p>I'm experienced in <strong>MATLAB/Simulink</strong>-based simulation, power-system studies, hardware implementation and interdisciplinary engineering projects. My undergraduate thesis focused on <strong>multi-objective optimization of hybrid PV-Battery-Diesel systems</strong> using Enhanced Electromagnetic Field Optimization and the Epsilon-Constraint method.</p>
+          <p>I'm interested in renewable energy, power-system optimization, smart grids, sustainable electrical systems and emerging energy technologies.</p>
+          <div class="about-facts">
+            <div><span>Based in</span><b>Dhaka, Bangladesh</b></div>
+            <div><span>Languages</span><b>Bengali (Native) · English (Professional)</b></div>
+          </div>
+          <div class="chip-row" id="personalInterests"></div>
+        </div>
+        <div class="desk-wrap glass reveal">
+          <div class="desk-label"><span class="mono">workspace.glb</span> · low-poly me at my desk</div>
+          <div id="deskScene" class="desk-scene" role="img" aria-label="Animated low-poly character of Tomalika at an isometric desk, typing and waving"></div>
+          <div class="desk-controls">
+            <button data-anim="wave" class="pill">👋 Wave</button>
+            <button data-anim="type" class="pill active">⌨️ Type</button>
+            <button data-anim="think" class="pill">💡 Think</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SKILLS ================= -->
+    <section id="skills" class="section">
+      <div class="section-head reveal">
+        <span class="kicker">02 / Skills</span>
+        <h2>A toolkit <span class="grad">in orbit</span></h2>
+        <p class="sub">Drag the sphere to spin it. Hover a category to light up its skills.</p>
+      </div>
+      <div class="skills-grid">
+        <div class="tag-sphere-wrap reveal">
+          <div class="tag-sphere" id="tagSphere" aria-hidden="true"></div>
+        </div>
+        <div class="skill-cats reveal" id="skillCats"></div>
+      </div>
+      <div class="interests reveal">
+        <h3>Research Interests</h3>
+        <div class="chip-row" id="researchInterests"></div>
+      </div>
+    </section>
+
+    <!-- ================= JOURNEY ================= -->
+    <section id="journey" class="section">
+      <div class="section-head reveal">
+        <span class="kicker">03 / Journey</span>
+        <h2>Education, experience <span class="grad">&amp; leadership</span></h2>
+      </div>
+      <div class="timeline3d">
+        <div class="tl-track" id="timeline"></div>
+      </div>
+    </section>
+
+    <!-- ================= RESEARCH ================= -->
+    <section id="research" class="section">
+      <div class="section-head reveal">
+        <span class="kicker">04 / Research &amp; Thesis</span>
+        <h2>Optimizing a hybrid <span class="grad">island grid</span></h2>
+      </div>
+      <div class="research-grid">
+        <article class="thesis-card glass reveal" id="thesisCard"></article>
+        <div class="exploded-wrap reveal">
+          <div class="exploded" id="exploded" title="Hover or tap to explode the system">
+            <div class="layer l-opt"><span>EEFO + ε-Constraint Optimizer</span></div>
+            <div class="layer l-pv"><span>☀ PV Array</span></div>
+            <div class="layer l-bat"><span>🔋 Battery Bank</span></div>
+            <div class="layer l-dg"><span>⛽ Diesel Generator</span></div>
+            <div class="layer l-load"><span>🏝 Sandwip Island Load</span></div>
+          </div>
+          <p class="exploded-caption">Exploded view of the hybrid energy system. Hover or tap to separate the layers.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PROJECTS ================= -->
+    <section id="projects" class="section">
+      <div class="section-head reveal">
+        <span class="kicker">05 / Projects</span>
+        <h2>Things I've <span class="grad">built &amp; simulated</span></h2>
+        <p class="sub">Choose a view. Click any project to open its GitHub repo.</p>
+      </div>
+      <div class="view-switch reveal" role="tablist" aria-label="Project view">
+        <button role="tab" data-view="tilt" class="active">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Tilt Cards</button>
+        <button role="tab" data-view="cubes">
+          <svg viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M12 22V12M3 7l9 5 9-5"/></svg>Flip Cubes</button>
+        <button role="tab" data-view="orbit">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/></svg>Orbit</button>
+      </div>
+      <div class="project-views">
+        <div class="pview active" data-view="tilt"><div class="tilt-grid" id="tiltGrid"></div></div>
+        <div class="pview" data-view="cubes"><div class="cube-grid" id="cubeGrid"></div>
+          <p class="hint">Each cube holds four projects and turns on its own. Hover to pause, click the front face to open it.</p></div>
+        <div class="pview" data-view="orbit">
+          <div class="orbit-carousel" id="orbitCarousel">
+            <div class="oc-core"><span>11</span><small>projects</small></div>
+            <div class="oc-ring" id="ocRing"></div>
+          </div>
+          <div class="oc-controls">
+            <button class="pill" id="ocPrev" aria-label="Previous">◀</button>
+            <span class="mono" id="ocLabel"></span>
+            <button class="pill" id="ocNext" aria-label="Next">▶</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section id="contact" class="section contact">
+      <div class="contact-card glass tilt reveal" data-tilt-max="6">
+        <span class="kicker">06 / Contact</span>
+        <h2>Let's build a <span class="grad">cleaner grid</span> together.</h2>
+        <p>I'm open to research collaborations, graduate opportunities and engineering roles in renewable energy and power systems.</p>
+        <div class="contact-links">
+          <a href="mailto:tomalikamazumdar117@gmail.com" class="clink">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <span><small>Email</small>tomalikamazumdar117@gmail.com</span></a>
+          <a href="tel:+8801871111718" class="clink">
+            <svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"/></svg>
+            <span><small>Phone</small>+880 1871 111718</span></a>
+          <a href="https://www.linkedin.com/in/tomalika-mazumdar-69a9b7378" target="_blank" rel="noopener" class="clink">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>
+            <span><small>LinkedIn</small>tomalika-mazumdar</span></a>
+          <a href="https://github.com/toma117-alt" target="_blank" rel="noopener" class="clink">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-4 1.5-4-2-6-2.5M15 21v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.8 2.8 5.8 3.1 5.8 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+            <span><small>GitHub</small>toma117-alt</span></a>
+        </div>
+        <a class="btn-primary" href="assets/Tomalika_Mazumdar_CV.pdf" download>Download full CV
+          <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg></a>
+      </div>
+      <footer class="footer">© <span id="year"></span> Tomalika Mazumdar · Built with Three.js &amp; a lot of current ⚡</footer>
+    </section>
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
